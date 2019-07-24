@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>counting and printing a matched pattern | Genomics of Biodiversity @ IBS2019 in Quito, Ecuador</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="counting and printing a matched pattern" />
+<meta name="author" content="Becca Tarvin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador." />
+<meta property="og:description" content="This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador." />
+<link rel="canonical" href="http://localhost:4000/files/AWK-cheatsheet.html" />
+<meta property="og:url" content="http://localhost:4000/files/AWK-cheatsheet.html" />
+<meta property="og:site_name" content="Genomics of Biodiversity @ IBS2019 in Quito, Ecuador" />
+<script type="application/ld+json">
+{"description":"This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador.","author":{"@type":"Person","name":"Becca Tarvin"},"@type":"WebPage","url":"http://localhost:4000/files/AWK-cheatsheet.html","headline":"counting and printing a matched pattern","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/assets/css/style.css?v=a2fbe73ec3016e9099eea62f3c507e0f936c7fba">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Genomics of Biodiversity @ IBS2019 in Quito, Ecuador</h1>
+      <h2 class="project-tagline">This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador.</h2>
+      
+        <a href="https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h2 id="counting-and-printing-a-matched-pattern">counting and printing a matched pattern</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>awk '/a/{++cnt} END {print "Count = ", cnt}' filename.txt
+</code></pre></div></div>
+
+<p>which produces the output</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Count = 4
+</code></pre></div></div>
+
+<h2 id="printing-a-column-by-pattern">printing a column by pattern</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>awk '/a/ {print $3 "\t" $4} filename.txt
+</code></pre></div></div>
+
+<p>which finds pattern ‘a’ in each line but then only prints columns 3 and 4 for the found pattern.</p>
+
+<h2 id="printing-lines-with-more-than-18-characters">printing lines with more than 18 characters</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>awk 'length($0) &gt; 18' filename.txt
+</code></pre></div></div>
+
+<p>when given argument/variable $0, it defaults to print action, so if more than 18 characters are present in line then the comparison is true and gets printed.</p>
+
+<h2 id="match-character-set">match character set</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -e "Call\nTall\nBall" | awk '/[CT]all/'
+</code></pre></div></div>
+
+<p>which finds names from the echo list that match the pattern “all” but only contain C and T, and prints:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Call
+Tall
+</code></pre></div></div>
+
+<h2 id="exclusive-set">exclusive set</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -e "Call\nTall\nBall" | awk '/[^CT]all/'
+</code></pre></div></div>
+
+<p>the carat negates the set of characters in the square braquets, which prints only</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ball
+</code></pre></div></div>
+
+<h2 id="zero-or-one-occurrence">zero or one occurrence</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -e "Colour\ncolor" | awk '/Colou?r/'
+</code></pre></div></div>
+
+<p>which matches zero or one occurence of the preceding character (so matches and prints both).</p>
+
+<h2 id="zero-or-more-occurrences">zero or more occurrences</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -e "ca\ncat\ncatt" | awk '/cat*/'
+</code></pre></div></div>
+
+<p>which matches zero or more occurrences of the preceding character.</p>
+
+<h2 id="one-or-more-occurrence">one or more occurrence</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -e "111\n22\n123\n234\n456\n222" | awk '/2+/'
+</code></pre></div></div>
+
+<p>which matches one or more occurrences of the preceding character.</p>
+
+<h2 id="grouping">grouping</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -e "Apple Juice\nApple Pie\nApple Tart\nApple Cake" | awk '/Apple (Juice|Cake)/'
+</code></pre></div></div>
+
+<p>the above matches the lines containing either Apple Juice or Apple Cake</p>
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity">IBS2019_Genomics-of-Biodiversity</a> is maintained by <a href="https://github.com/rdtarvin">rdtarvin</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>

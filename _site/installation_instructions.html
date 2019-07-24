@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>{} | Genomics of Biodiversity @ IBS2019 in Quito, Ecuador</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="{}" />
+<meta name="author" content="Becca Tarvin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador." />
+<meta property="og:description" content="This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador." />
+<link rel="canonical" href="http://localhost:4000/installation_instructions.html" />
+<meta property="og:url" content="http://localhost:4000/installation_instructions.html" />
+<meta property="og:site_name" content="Genomics of Biodiversity @ IBS2019 in Quito, Ecuador" />
+<script type="application/ld+json">
+{"description":"This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador.","author":{"@type":"Person","name":"Becca Tarvin"},"@type":"WebPage","url":"http://localhost:4000/installation_instructions.html","headline":"{}","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/assets/css/style.css?v=a2fbe73ec3016e9099eea62f3c507e0f936c7fba">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Genomics of Biodiversity @ IBS2019 in Quito, Ecuador</h1>
+      <h2 class="project-tagline">This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador.</h2>
+      
+        <a href="https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id="virtual-machine-installation-and-setup-instructions">Virtual Machine Installation and Setup Instructions</h1>
+
+<p>So we are all working in the same computing environment, please follow these instructions:</p>
+<ol>
+  <li>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox 5.1.24 and VirtualBox 5.1.24 Oracle VM VirtualBox Extension Pack</a> for your operating system.</li>
+  <li>Download the <a href="http://download.lab7.io/UT-BioComputing-RADSeq.ova">virtual machine image</a> with RADseq software. <strong>This file is 4.7GB, so make sure you have space on your hard drive and a good internet connection before downloading.</strong> Back-up Download Link <a href="https://my.pcloud.com/publink/show?code=XZuFGrZQiTiVzhKRTbaj4E6LHBetSQj6wjy">Here</a></li>
+  <li>Install both the box and the extension pack, then double-click on the .ova file to import it into the virtual machine. (This may take a few minutes)</li>
+  <li>When Virtual Machine program opens, select “UT Biocomputing RADSeq” and click Import. (This can take &gt;1hr). The login user and password are “user1” and “password”, respectively.</li>
+  <li>Click Settings, then Shared Folders. Click on the New Folder symbol, click “Auto-mount” and add a path 
+to your Applications/Programs folder and then to your Documents (and to anything else you may want to access 
+from the VM).</li>
+  <li>Start the VM by clicking the green arrow. Once the machine loads, click the blue deer in the upper 
+left corner, then click the light switch icon (“All Settings”). Scroll down and click Users and Groups, 
+then Manage Groups. Scroll down and select vboxsf and then click Properties. Make sure the box for 
+“Biocomputing User 1” is checked. Click OK, enter your password (“password”), and then shut down the VM 
+and restart it.</li>
+  <li>Click on the black box in the upper left corner (“Terminal Emulator”). 
+Once the program opens, install the Atom text editor by copying the following text into the terminal, one line at a time. Answer ‘y’ if it asks.
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository ppa:webupd8team/atom
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt install atom
+</code></pre></div>    </div>
+  </li>
+  <li>To test whether your installation worked, type:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>touch testfile <span class="c"># creates an empty file in the directory where you are</span>
+atom testfile <span class="c"># opens the file in atom</span>
+</code></pre></div>    </div>
+    <p>Add some text to the file, save it (from within the VM), and then exit atom. Go back to the Terminal and type</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>testfile
+</code></pre></div>    </div>
+    <p>If the installation worked, the text you saved to the file should print to the screen. If you want to remove the file, type <code class="highlighter-rouge">rm testfile</code>.</p>
+  </li>
+</ol>
+
+<p>One note - on the VM, copy is Ctrl+Shift+C and paste is Ctrl+Shift+V<br /> 
+<br />
+<strong>TROUBLESHOOTING</strong><br />
+If when starting your VM, you get a black box with an underscore and the machine doesn’t ever start, you may need to enable hardware virtualization technology (VT-x).
+This is probably the case if you have a 64-bit Windows operating system. To make this change, follow these steps:</p>
+<ol>
+  <li>Start BIOS at boot up by holding F10 during start-up (the specific F key may be different for your computer).</li>
+  <li>Go to Advanced Settings then Device Configurations, then click the box next to VTx</li>
+  <li>Click Save, then Exit. Save changes.</li>
+  <li>Once the computer starts, open Virtual Box, click on Settings. Under the General menu, change the Version to Ubuntu (64-bit).</li>
+  <li>Start the VM, it should be working fine!</li>
+</ol>
+
+<hr />
+<p>If you have a Mac computer, everything we are doing in this workshop you can install at a later date to your root system (Mac OS). Windows users will always require a linux VM to run these programs. For Mac OS text editors, we recommend <a href="http://www.barebones.com/products/textwrangler/">Text Wrangler</a>, <a href="http://www.sublimetext.com/2">Sublime Text</a>, or <a href="https://atom.io/">Atom</a>. If you do want to use a text editor on Windows outside of the ubuntu environment, we recommend <a href="https://notepad-plus-plus.org/">Notepad++</a>.</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-105631258-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity">IBS2019_Genomics-of-Biodiversity</a> is maintained by <a href="https://github.com/rdtarvin">rdtarvin</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>

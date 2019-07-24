@@ -1,0 +1,12 @@
+GTGT	gen3_sp3-1
+AGAC	gen3_sp3-2
+ACCA	gen3_sp2-1
+AGTG	gen3_sp2-2a
+CATC	gen3_sp2-2b
+GTGA	gen1_sp1-1a
+TCAG	gen1_sp1-1b
+GCTT	gen1_sp1-2
+CTAC	gen3_sp1-1
+TGTC	gen3_sp1-2
+TCAC	gen2_sp1-1
+GACT	gen2_sp1-2

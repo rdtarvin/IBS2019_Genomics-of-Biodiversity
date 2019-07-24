@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>ddRAD data in stacks | Genomics of Biodiversity @ IBS2019 in Quito, Ecuador</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="ddRAD data in stacks" />
+<meta name="author" content="Becca Tarvin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador." />
+<meta property="og:description" content="This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador." />
+<link rel="canonical" href="http://localhost:4000/old_posts/2017-08-03-afternoon-ddrad-stacks.html" />
+<meta property="og:url" content="http://localhost:4000/old_posts/2017-08-03-afternoon-ddrad-stacks.html" />
+<meta property="og:site_name" content="Genomics of Biodiversity @ IBS2019 in Quito, Ecuador" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-08-03T00:00:00-07:00" />
+<script type="application/ld+json">
+{"description":"This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador.","author":{"@type":"Person","name":"Becca Tarvin"},"@type":"BlogPosting","url":"http://localhost:4000/old_posts/2017-08-03-afternoon-ddrad-stacks.html","headline":"ddRAD data in stacks","dateModified":"2017-08-03T00:00:00-07:00","datePublished":"2017-08-03T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/old_posts/2017-08-03-afternoon-ddrad-stacks.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/assets/css/style.css?v=a2fbe73ec3016e9099eea62f3c507e0f936c7fba">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Genomics of Biodiversity @ IBS2019 in Quito, Ecuador</h1>
+      <h2 class="project-tagline">This the course website for the Genomics of Biodiversity workshop at the International Biogeography Society meeting in Quito, Ecuador.</h2>
+      
+        <a href="https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <p>WORKSHOP QUITO - DAY 4</p>
+
+<h1 id="stacks-with-ddrad-data">STACKS WITH ddRAD data</h1>
+
+<p><strong>DOWNLOAD THE RAW DATA FOR THIS LESSON <a href="https://my.pcloud.com/publink/show?code=XZxojcZzaPwbwoStDk7Do00Rhezeu7w3Xey">HERE</a></strong></p>
+
+<p>The first thing to know about stacks is that the online manual is very useful but not completely straighforward to navigate, so let’s get familiar with their <a href="http://catchenlab.life.illinois.edu/stacks/">manual</a> first and the program in general.</p>
+
+<p><img src="https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/basic-assembly-steps.png?raw=true" alt="" /><br /></p>
+
+<h2 id="demultiplexing-in-stacks-process_radtags">Demultiplexing in STACKS (process_radtags)</h2>
+
+<p>Demultiplexing your sequencing pools is always the first step in any pipeline. In stacks, the files you need for demultiplexing are:</p>
+
+<ul>
+  <li>
+    <p>barcodes+sample names (tab-delimited .txt file)</p>
+  </li>
+  <li>
+    <p>process_radtags code (shell program from stacks)</p>
+  </li>
+</ul>
+
+<p>First, let’s take a look at the Stacks Manual for <a href="http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php">process_radtags</a> to see how to set up our barcodes file.</p>
+
+<p>So, let’s build the barcodes file for demultiplexing, where the first column will be the unique adapter sequence using this <a href="https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/STACKS/demultiplexing/Pool_1_barcodes.txt">text file</a>, the second column is the index primer sequence (in this case, ATCACG), and the third column is the individual sample names, found <a href="https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/STACKS/demultiplexing/Pool_1_sample_names.txt">here</a>.The sample names occur in the same order as the barcodes in the example file.</p>
+
+<p><strong>There are MANY ways to build this file…. how do you want to do it?</strong></p>
+
+<p><strong>NOTE 1</strong>: whenever editing text files, first, NEVER use what you exported from excel or word directly… always check in a simple text editor (Text Wrangler, BBEdit, etc) and using “view invisible characters” to avoid unnecesary headaches of hidden characters or extra spaces/tabs, etc! Biggest waste of time in anything computing…</p>
+
+<p><strong>NOTE 2</strong>: For stacks, you need to have the appropriate barcode files within the appropriate library folders if demultiplexing libraries separately.</p>
+
+<p><strong>NOTE 3</strong>: Figure out how your barcodes are set up within your sequence file, in order to determine how to set up the process_radtags code (doing any of the commands we did earlier to look into the files).</p>
+
+<p><img src="https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/ddRAD-read.png?raw=true" alt="" /></p>
+
+<p>To triple-check your barcode layout, look into your <strong>gzipped</strong> file to see how barcodes are setup and figure out the stacks code with whether the barcode occurs in line with the sequence or not. This is not super simple, and usually takes a couple of tries before it works!</p>
+
+<p>The general code we will use for process_radtags, running it from within the raw-data folder, is the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process_radtags -p . -b ./barcodes_pool1.txt -o ./demultiplexing-test -c -q -r -D --inline_index --renz_1 sphI --renz_2 mspI -i gzfastq
+</code></pre></div></div>
+
+<p><strong>What do our demultiplexed files look like…?</strong></p>
+
+<h2 id="genotyping-in-stacks">Genotyping in stacks</h2>
+
+<p>In most cases, having a reference genome is a bad thing. However, STACKS is designed for non-model organisms, so in fact their <a href="http://catchenlab.life.illinois.edu/stacks/comp/denovo_map.php">denovo_map</a> algorithms are superior and more self-contained than their <a href="http://catchenlab.life.illinois.edu/stacks/comp/ref_map.php">ref_map</a> algorithms.</p>
+
+<p>In <strong>ref_map.pl</strong> you need to use <a href="https://github.com/lh3/bwa">another alignment tool</a> prior to running stacks. So then, the pipeline workflow would have one extra step:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process_radtags
+GSNAP or bwa
+ref_mal.pl
+</code></pre></div></div>
+
+<p><em>“The ref_map.pl program takes as input aligned reads. It does not provide the assembly parameters that denovo_map.pl does and this is because the job of assembling the loci is being taken over by your aligner program (e.g. BWA or GSnap). You must take care that you have good alignmnets – discarding reads with multiple alignments, making sure that you do not allow too many gaps in your sequences (otherwise loci with repeat elements can easily be collapsed during alignments), and take care not to allow soft-masking in the alignments. This occurs when an aligner can not make a full alignment and instead soft-masks the portion of the read that could not be aligned (pretending that this part of the read does not exist). <strong>These factors, if not cared for, can cause spurious SNP calls and problems in the downstream analysis.”</strong></em></p>
+
+<p>A recent paper that came out, <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12775/full">Lost in Parameter Space: a roadmap for STACKS</a>, shows how building <em>ref_map</em> loci in STACKS is not very efficient, and loses too much data, which complicates the pipeline even more! Thus, the pipeline for <em>ref_map.pl</em>, using their so-called <em>“integrated”</em> method should be:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process_radtags #demultiplex
+denovo_map.pl #initial genotyping
+GSNAP or bwa #align raw reads to catalog loci from denovo
+integrate_alignments.py #integrate alignment information back into denovo ouput
+populations
+</code></pre></div></div>
+
+<p>So many steps!!</p>
+
+<h2 id="genotyping-with-denovo_mappl">Genotyping with denovo_map.pl</h2>
+
+<p>First, let’s grab four <a href="https://my.pcloud.com/publink/show?code=kZYoScZyhvt7h2OCCbB0SteaI7KNfFIKVqk">additional sequences</a> that we had demultiplexed from another sequencing library; they had the same barcodes, but different Illumina index primers so were demultiplexed separately. Make sure these sequences end up in your working directory. &gt; can you tell what the index primer was?</p>
+
+<p>We should now have five additional individuals for the third population for which we only had one before.</p>
+
+<p>Let’s make a list of the filenames that have sequences in them using the following command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls | awk '/fq/' &gt; sequence_files.txt
+</code></pre></div></div>
+
+<p>This list of filenames will be a part of the input for running <em>denovo_map.pl</em>, since you have to list all of the sequence files that will be used for input, rather than a directory containing them. To learn more about <strong>awk</strong> basics, a very powerful tool for editing/rewriting text files, you can <a href="https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/AWK-cheatsheet.md">start here</a>.</p>
+
+<p>Let’s start setting up denovo_map runs. Here is the general code we will use:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>denovo_map.pl -T 8 -m 2 -M 3 -n 2 -S -b 2 -o ./path/to/denovo-map/denovo/ \
+-s ./path/to/denovo-map/filename.fq \
+-s ./path/to/denovo-map/filename.fq \
+</code></pre></div></div>
+
+<p><strong>Q: what does the backslash ‘' mean here?</strong></p>
+
+<p>The denovo code needs to have every single sequence that you will genotype listed in a single line. Thus, you need to build your <strong>denovo_map</strong> file with EVERY sequence that you will use separately…. <strong>How should we do this?</strong></p>
+
+<p>OK, let’s start <strong>denovo_map</strong>!!! Look at the terminal window as it runs…. what’s happening currently…? While we wait, let’s look more into the <strong>STACKS</strong> manual.</p>
+
+<p>#####
+#####</p>
+
+<p>One thing that is very important in stacks is troubleshooting parameter settings. The defaults in STACKS are <strong>NOT GOOD</strong> to use, and depending on the specifics of the dataset (divergence, number of populations, samples, etc) these parameters will vary a lot from one study to the other. The main parameters to mess with are:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>m — specify a minimum number of identical, raw reads required to create a stack.
+M — specify the number of mismatches allowed between reads when processing a single individual (default 2).
+n — specify the number of mismatches allowed between reads (among inds.) when building the catalog (default 1).
+</code></pre></div></div>
+
+<p><strong>Note 1</strong>: The higher the coverage, the higher the m parameter can be.</p>
+
+<p><strong>Note 2</strong>: M should not be 1 (diploid data) but also should not be very high since it will begin to stack paralogs.</p>
+
+<p><strong>Note 3</strong>: n will depend on how divergent our individuals/populations are. It should not be zero, since that would essentially allow zero SNPs, but 1 also seems unrealistically low (only a single difference between individuals in any given locus), so in these kinds of datasets we should have permutations that start from 2.  If you use n 1 it is likely to oversplit loci among populations that are more divergent.</p>
+
+<p>The same paper that discussed the issues with <em>ref_map.pl</em> that I mentioned previously, also mentions some tips for picking the ideal parameter settings for stacks… but, in general my recommendation would be: explore your dataset!!! Some general suggestions from it:</p>
+
+<ul>
+  <li>Setting the value of <em>m</em> in essence is choosing how much “error” you will include/exclude from your dataset. This parameter creates a trade-off between including error and excluding actual alleles/polymorphism. Higher values of <em>m</em> increase the average sample coverage, but decreases the number of assembled loci. After m=3 loci number is more stable.</li>
+  <li>Setting the value <em>M</em> is a trade-off between overmerging (paralogs) and undermerging (splitting) loci.  It is <strong>VERY dataset-specific</strong> since it depends on polymorphism in the species/populations and in the amount of error (library prep and sequencing).</li>
+  <li>Setting the value <em>n</em> is also critical when it comes to overmerging and undermerging loci. There seems to be an unlimited number of loci that can be merged with the catalog wiht increasing n!!</li>
+  <li>Finally, authors suggest that a general rule for setting parameters is n=M, n=M-1, or n=M+1, and that M is the main parameter that needs to be explored for each dataset.</li>
+</ul>
+
+<p>However, given that these methods are still very new and that we still don’t know how to “Easily” and properly assess error, the more permutations you do with the parameter settings, the more you will understand what your dataset is like, and the better/more “real” your loci/alleles will be. Here are some recommended permutations to run wiht your dataset:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Permutations</th>
+      <th>-m</th>
+      <th>-M</th>
+      <th>-n</th>
+      <th>–max_locus_stacks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>a</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>b</td>
+      <td>5</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>c</td>
+      <td>7</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>d</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>e</td>
+      <td>3</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>f</td>
+      <td>3</td>
+      <td>5</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>g</td>
+      <td>3</td>
+      <td>2</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>h</td>
+      <td>3</td>
+      <td>2</td>
+      <td>4</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>i</td>
+      <td>3</td>
+      <td>2</td>
+      <td>5</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>j</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>k</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can evaluate the number of loci, SNPs, and Fsts that you get from these parameters to assess “stability” of genotyping and pick optimal parameter settings.</p>
+
+<p><strong>NOW BACK TO OUR GENOTYPING IN STACKS….</strong></p>
+
+<p>#####</p>
+
+<p>#####</p>
+
+<p>Uh oh…. our denovo run seems to have failed!! What do you think happened? Let’s find the logfile for denovo. First, navigate into your <strong>denovo</strong> output directory, then do:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls -ltrh 
+tail denovo_map.log
+</code></pre></div></div>
+
+<p>What does the logfile say….? Why did the run fail??</p>
+
+<p>We need to re-make our denovo_map shell script, eliminating all individuals that failed to recover RADtags, and <a href="https://giphy.com/gifs/movie-crying-johnny-depp-hAt4kMHnaVeNO">get over</a> the fact that we lost those individuals. You can either move the failed individuals to a different directory AND exclude them from the script, or simply exclude them from the script (either works!).</p>
+
+<p>Now we have our new <strong>denovo_map</strong> script ready to go…. let’s set it up and see if it doesn’t fail!</p>
+
+<h2 id="getting-the-output-with-populations">Getting the output with <strong>populations</strong></h2>
+
+<p>The final step in the stacks pipeline is to run the program <strong>populations</strong>. Similar to step 7 in ipyrad, it outputs/summarizes your data into formats you specify. However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!</p>
+
+<p>To run <strong>populations</strong>, we first need to develop a popmap file, which simply contains names of sequences (first column)and some population code (second column)that they belong to, tab delimited. Our sample/file names alrady contain the population information, so try to build it yourself…. how do you want to do it???</p>
+
+<p>Now, let’s run <strong>populations</strong> using the following command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>populations -b 2 -P . -M ./popmap.txt -k -p 1 -r 0.2 -t 36 --structure --genepop --vcf --write_random_snp
+</code></pre></div></div>
+
+<p>Before we move on to the next steps…. let’s <a href="https://docs.google.com/presentation/d/1ZfCd0jIuNm4MwdCTw0MOXtyLBBlpRB3Xt_jHWhOcQhk/pub?start=false&amp;loop=false&amp;delayms=60000">talk a bit</a> about post-genotyping filters and the nature of RADseq datasets and SNP matrices…</p>
+
+<h2 id="post-filtering-in-plink">Post-filtering in <strong>plink</strong></h2>
+<p>We are now going to filter our matrix to reduce biases and incorrect inferences due to missing data (in individuals and SNPs)and by Minor Allele Frequency.</p>
+
+<ol>
+  <li>
+    <p>First, we filter loci with less than 60% individuals sequenced</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ./plink --file filename --geno 0.4 --recode --out filename_a --noweb
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Second, we filter individuals that have less than 50% data</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ./plink --file filename_a --mind 0.5 --recode --out filename_b --noweb
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Third, we filter loci with MAF &lt; 0.02 in remaining individuals</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /.plink --file filename_b --maf 0.02 --recode --out filename_c --noweb
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="second-output-from-stacks-populations">Second output from stacks <em>populations</em></h2>
+
+<p>Now we are going to re-run the last step of the <strong>STACKS</strong> pipeline, so that we can get the nice population stats with out cleaner matrix.</p>
+
+<p>We need to make a <strong><em>whitelist</em></strong> file, which is a list of the loci to include based on the plink results (i.e. on amount of missing data in locus). The whitelist file format is ordered as a simple text file containing one catalog locus per line:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	% more whitelist
+	3
+	7
+	521
+	11
+	46
+	103
+	972
+	2653
+	22
+</code></pre></div></div>
+
+<p>In order to get from the .map file to the whitelist file format, open *_c.map file in Text Wrangler, and do find and replace arguments using <strong>grep</strong>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>search for \d\t(\d*)_\d*\t\d\t\d*$
+replace with \1
+</code></pre></div></div>
+
+<p>Using the <strong>.irem</strong> file from the second iteration of <em>plink</em> (in our example named with termination <strong>“_b”</strong>), remove any individuals from the first popmap if they did not pass <strong>plink</strong> filters so that they are excluded from the analysis (i.e. individuals with too much missing data).</p>
+
+<p>Now we can run populations again using the whitelist of loci and the updated popmap file for loci and individuals to retain based on the plink filters.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>populations -b 1 -P ./ -M ./popmap.txt  -p 1 -r 0.5 -W Pr-whitelist --write_random_snp --structure --plink --vcf --genepop --fstats --phylip
+</code></pre></div></div>
+
+<p>We will use many of these outputs for downstream analyses. Outputs are:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>batch_2.hapstats.tsv
+batch_2.phistats.tsv
+batch_2.phistats_1-2.tsv
+batch_2.phistats_1-3.tsv
+batch_2.phistats_2-3.tsv
+batch_2.sumstats.tsv
+batch_2.sumstats_summary.tsv
+batch_2.haplotypes.tsv
+batch_2.genepop
+batch_2.structure.tsv
+batch_2.plink.map
+batch_2.plink.ped
+batch_2.phylip
+batch_2.phylip.log
+batch_2.vcf
+batch_2.fst_1-2.tsv
+batch_2.fst_1-3.tsv
+batch_2.populations.log
+batch_2.fst_summary.tsv
+batch_2.fst_2-3.tsv
+</code></pre></div></div>
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity">IBS2019_Genomics-of-Biodiversity</a> is maintained by <a href="https://github.com/rdtarvin">rdtarvin</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
