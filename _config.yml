@@ -17,7 +17,7 @@ plugins:
   - jekyll-paginate
   
 # Google services
-google_analytics: 
+google_analytics: UA-144489144-1
 
 #Others
 site:
