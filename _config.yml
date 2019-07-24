@@ -1,22 +1,22 @@
 # Setup
-title:        2017 Quito RADseq workshop
+title:        Genomics of Biodiversity @ IBS2019 in Quito, Ecuador
 tagline:       
 baseurl:      
-url:          https://rdtarvin.github.io/RADseq_Quito_2017
+url:          https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity
 paginate:     1
 theme: jekyll-theme-cayman
 
 # About/contact
 author:
  name:       Becca Tarvin
- url:        http://www.rebeccatarvin.com
+ url:        http://www.tarvinlab.org
 
 # Gems
 gems:
   - jekyll-paginate
   
 # Google services
-google_analytics: UA-105631258-1
+google_analytics: 
 
 #Others
 site:
