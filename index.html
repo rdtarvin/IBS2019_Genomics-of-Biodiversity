@@ -1,0 +1,78 @@
+---
+layout: default
+title: {{ site.name }}
+---
+
+<div id="home">
+  <h1>Welcome!</h1>
+  
+
+	This is the official website for the RADseq workshop following the XI Congreso Latinoamericano de Herpetologia in Quito, Ecuador, sponsored by <a href="http://zoologia.puce.edu.ec/Vertebrados/">QCAZ @ PUCE</a>.
+	Virtual Machine support is provided by <a href="https://www.lab7.io/">Lab7</a>.
+	The workshop will take place in the Sala de Uso Múltiple on the first floor of the Biology Building from July 31 until August 5 of 2017. We will cover theory and experimental design of RADseq projects as well as laboratory methods and bioinformatic pipelines.      <br>
+
+	<h1>Before the workshop, please complete the following three tasks, in this order:</h1>
+	
+		1. Fill out this <a href="https://www.surveymonkey.com/r/H6NDCHG">pre-course survey</a> <br>
+	
+	
+		2. Install the virtual machine as described in the <a href="{{ site.baseurl }}/installation_instructions">installation instructions page</a> <br>
+	
+	
+		3. Complete lessons 1-3 of this <a href="https://swcarpentry.github.io/shell-novice">software carpentry course</a>  on bash/shell, unless you are certain that you feel comfortable in the shell environment. <br>
+
+
+
+	
+
+
+</div>
+<br>
+<div>
+
+  <h1>Syllabus and Materials</h1>
+  <table>
+            <tr>
+                <th>Day</th> 
+                <th>Time</th>
+                <th>Topic</th>
+                <th>Lesson Type</th>
+                <th>Instructor(s)</th>
+            </tr>
+	{% assign sorted_posts = site.posts | sort:"order" %}
+    {% for post in sorted_posts %}
+     <tr>
+                 <td> {{ post.date | date: '%A,<br/>%B %-d' }} </t>
+                 <td> {{ post.time }} </t>
+                 {% if post.material-type == 'ppt' %}
+                 	<td> <a href="{{ post.materials }}">{{ post.title }}</a></td>
+                 {% elsif post.material-type == 'no-link' %}	
+                 	<td> {{ post.title }} </td>
+                 {% else %}
+                 	<td align="left"> <a href="{{ site.baseurl }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> </td>
+                 {% endif %}
+                 <td> {{ post.lesson-type }} </td>
+                 <td> {{ post.instructor }} </td> 
+     </tr>   
+    {% endfor %}
+    </table>
+</div>
+
+<div>
+<br><br>
+<hr>
+The Virtual Machine we use in this course is provided by Lab7 Systems, a company in  Austin, TX that offers software solutions for life science labs. 
+Their core commercial software solution is the <a href="https://www.lab7.io/solutions/lab7-esp/">
+Lab7 Enterprise Science Platform</a> (ESP), which is the first, complete sample-to-answer 
+software platform for integrating and managing data-intensive lab operations (think [wet-lab] 
+LIMS + informatics + reporting all in one system). <a href="https://biobuilds.org/">BioBuilds</a> 
+is their curated collection of pre-built open-source bioinformatics tools that aims to reduce the 
+headaches associated installing and maintaining these tools (e.g., dependency hell and quirky build 
+systems). It’s free for anyone to download and use, but Lab7 offers support contracts for anyone 
+who needs additional technical support, packages with licensing constraints, or support deploying 
+these tools in regulated environments (e.g., clinics). Lab7 also has other offerings, including the 
+Lab7 Genomic Cloud and consulting.
+
+</div>
+
+

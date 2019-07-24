@@ -1,0 +1,24 @@
+# Setup
+title:        2017 Quito RADseq workshop
+tagline:       
+baseurl:      
+url:          https://rdtarvin.github.io/RADseq_Quito_2017
+paginate:     1
+theme: jekyll-theme-cayman
+
+# About/contact
+author:
+ name:       Becca Tarvin
+ url:        http://www.rebeccatarvin.com
+
+# Gems
+gems:
+  - jekyll-paginate
+  
+# Google services
+google_analytics: UA-105631258-1
+
+#Others
+site:
+ 
+
