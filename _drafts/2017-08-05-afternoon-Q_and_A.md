@@ -1,11 +1,11 @@
 ---
 layout: default
-order: 10
+order: 17
 title:  "Course wrap-up and Q & A"
-date:   2019-08-05
-time:   "16:45-18:00"
+date:   2017-08-05
+time:   "Afternoon"
 categories: main
-instructor: "Pati & Becca"
+instructor: "Pati, Becca, David"
 materials: ""
 material-type: "no-link"
 lesson-type: Discussion
