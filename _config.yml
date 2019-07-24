@@ -13,7 +13,7 @@ author:
  url:        http://www.tarvinlab.org
 
 # Gems
-gems:
+plugins:
   - jekyll-paginate
   
 # Google services
