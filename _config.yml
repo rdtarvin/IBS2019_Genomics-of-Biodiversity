@@ -5,6 +5,7 @@ baseurl:
 url:          https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity
 paginate:     1
 theme: jekyll-theme-cayman
+published: true
 
 # About/contact
 author:
