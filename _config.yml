@@ -2,7 +2,7 @@
 title:        Genomics of Biodiversity @ IBS2019 in Quito, Ecuador
 tagline:       
 baseurl:      
-url:          https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity
+url:          https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/
 paginate:     1
 theme: jekyll-theme-cayman
 published: true
