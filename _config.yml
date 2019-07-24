@@ -1,8 +1,8 @@
 # Setup
 title:        Genomics of Biodiversity @ IBS 2019
 tagline:       
-baseurl:      https://rdtarvin.github.io/
-url:          IBS2019_Genomics-of-Biodiversity/
+baseurl:      
+url:          https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/
 paginate:     1
 theme: jekyll-theme-cayman
 future: true
