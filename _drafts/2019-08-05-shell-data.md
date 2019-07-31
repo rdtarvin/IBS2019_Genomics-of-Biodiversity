@@ -275,7 +275,14 @@ Let's take a look at what ddRAD reads look like:
 
 ![](https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/master/images/ddRAD-read.png?raw=true)
 
-Ok, we can see that overall our data are of high quality (high Q scores, no weird tile patterns, no adaptor contamination). Time to move on to the assembly!!
+Ok, we can see that overall our data are of high quality (high Q scores, no weird tile patterns, no adaptor contamination). Let's clean up our files and then move on to the assembly!!
+
+```bash
+mkdir fastqc
+mv *__* fastqc 
+gzip *.fastq
+```
+
 
 
 Step 1. Demultiplex by barcode in **STACKS**
@@ -295,21 +302,14 @@ So, let's build the barcodes file for demultiplexing, where the first column wil
 
 <details> 
   <summary>Side-note </summary>
-   grep (Global regular expression print) is one of the most amazing things about text editors. <br>Try this on the epi_barcodes.txt file<br>
-   Search for
-<code>
-(.*)\t(.*)
-</code>
-and replace with
-<code>
-\2\tAGATCT\t\1
-</code>
+   grep (Global regular expression print) is one of the most amazing things about text editors. <br>
+   Try this on the epi_barcodes.txt file. Cmd+f, make sure 'grep' is checked, then search for
+	<code>(.*)\t(.*)</code> and replace with <code>\2\tAGATCT\t\1</code>
 </details> 
 
 The general code we will use for process_radtags, running it from within the raw-data folder, is the following: 
 
-
-	process_radtags -p . -b ./barcodes_pool1.txt -o ./demultiplexing-test -c -q -r -D --inline_index --renz_1 sphI --renz_2 mspI -i gzfastq
+	process_radtags -p . -b ./epi_barcodes_final.txt -o ./demultiplexing-test -c -q -r -D --inline_index --renz_1 sphI --renz_2 mluCI -i gzfastq
 
 
 **What do our demultiplexed files look like...?**
