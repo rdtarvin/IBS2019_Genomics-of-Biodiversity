@@ -121,7 +121,7 @@ curl -L -O https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/mas
 
 Your files will likely be gzipped and with the file extension **.fq.gz** or **fastq.gz**. The first thing you want to do is look at the beginning of your files while they are still gzipped.
 
-```bash
+```
 ls # list all files in current directory
 ls .. # list all files in one directory above
 # rename files
