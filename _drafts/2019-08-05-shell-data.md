@@ -172,7 +172,9 @@ AAFFFF7FF7AAJFFJJJJJJJJJJJJJFJJFFJJJF<AFF-FFJJ<JJFJFF-F--7AJJ<J<JFJJ-FFFJF-AFJFJ
 Ok this is great but there isn't much of a point to work with the files in their unzipped (large) format. So let's rezip them.
 ```bash
 gzip *.fastq
-# there are several ways to look at .gz files, such as:
+```
+There are actually several ways to look at .gz files, such as:
+```
 zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
 zcat epiddrad_t200_R1_.fastq.gz | head
 zcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
