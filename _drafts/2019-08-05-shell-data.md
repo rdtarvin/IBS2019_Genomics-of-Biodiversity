@@ -227,44 +227,32 @@ head epiddrad_t200_R1_.fastq | grep '@' | awk -F':' '{ print $2 }'
 # awk is a very useful program for parsing files; here ':' is the delimiter, $2 is the column location
 ```
 
-Ok this is all great but there isn't much of a point to work bioinformatically with the files in their unzipped (large) format. So let's rezip them.
 
-```bash
-gzip *.fastq
-```
-
-There are actually several ways to look at .gz files, such as:
-```
-zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
-gzcat epiddrad_t200_R1_.fastq.gz | head # the "|" pipes stdout to the program "head"
-gzcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
-```
 
 **Challenge**
 <details> 
   <summary>How would you count the number of reads in your file? </summary>
    There are lots of answers for this one. One example: in the fastq format, the character '@' occurs once per sequence, so we can just count how many lines contain '@'.<br> 
-   <code>grep -c '@' T36R59_I93_S27_L006_R1_sub12M.fastq</code>
-   Alternative fancy answer:
-   <code>wc -l epiddrad_t200_R1_.fastq | expr `awk -F' ' '{ print $1 }'` / 4</code>
+   <code>gzcat epiddrad_t200_R1_.fastq.gz | grep -c '@'</code>
 </details> 
 
 
 
-# Assembling 2bRAD data using iPyrad
+# Time to start the assembly process!
 
-![](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/basic-assembly-steps.png?raw=true)<br>
+![](https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/master/images/basic-assembly-steps.png?raw=true)<br>
 
-In this workflow, we will use the [2bRAD native pipeline](https://github.com/z0on/2bRAD_denovo) for filtering and trimming, 
-[fastx-toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) for quality control, 
+In this workflow, we will use [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to check read quality, 
+[STACKS](http://catchenlab.life.illinois.edu/stacks/) for filtering and trimming, 
 and then [iPyrad](http://ipyrad.readthedocs.io/index.html) for the rest of the assembly.<br><br>
+
 
 Step 0. Use fastqc to check read quality.
 ---
 
 ```bash
 # fastqc is already installed, but if you wanted to download it, this is how: 
-# wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip
+# curl -L -O https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip
 # unzip fastqc_v0.11.5.zip
 
 # let's take a look at fastqc options
@@ -277,7 +265,7 @@ fastqc produces a nice .html file that can be viewed in any browser.
 Since we are trying to get comfortable with the command line, let's open the file directly.
 
 ```bash
-sensible-browser T36R59_I93_S27_L006_R1_sub12M_fastqc.html
+open epiddrad_t200_R1__fastqc.html 
 ```
 
 Sequencing quality scores, "Q", run from 20 to 40. In the fastq file, these are seen as ASCII characters. 
@@ -285,12 +273,50 @@ The values are log-scaled: 20 = 1/100 errors; 30 = 1/1000 errors. Anything below
 There appear to be errors in the kmer content, but really these are just showing where the barcodes and restriction enzyme sites are. 
 Let's take a look at what 2bRAD reads look like:
 
-![](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/2bRAD-read.png?raw=true)
+![](https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/master/images/ddRAD-read.png?raw=true)
 
 Ok, we can see that overall our data are of high quality (high Q scores, no weird tile patterns, no adaptor contamination). Time to move on to the assembly!!
 
+
 Step 1. Demultiplex by barcode in **2bRAD native pipeline**
 ---
+
+
+
+Demultiplexing your sequencing pools is always the first step in any pipeline. In stacks, the files you need for demultiplexing are: 
+
+- barcodes+sample names (tab-delimited .txt file)
+
+- process_radtags code (shell program from stacks)
+
+First, let's take a look at the Stacks Manual for [process_radtags](http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php) to see how to set up our barcodes file. 
+
+So, let's build the barcodes file for demultiplexing, where the first column will be the unique adapter sequence using this [text file](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/STACKS/demultiplexing/Pool_1_barcodes.txt), the second column is the index primer sequence (in this case, ATCACG), and the third column is the individual sample names, found [here](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/STACKS/demultiplexing/Pool_1_sample_names.txt).The sample names occur in the same order as the barcodes in the example file.
+
+**There are MANY ways to build this file.... how do you want to do it?**
+
+**NOTE 1**: whenever editing text files, first, NEVER use what you exported from excel or word directly... always check in a simple text editor (Text Wrangler, BBEdit, etc) and using "view invisible characters" to avoid unnecesary headaches of hidden characters or extra spaces/tabs, etc! Biggest waste of time in anything computing... 
+
+**NOTE 2**: For stacks, you need to have the appropriate barcode files within the appropriate library folders if demultiplexing libraries separately.
+
+**NOTE 3**: Figure out how your barcodes are set up within your sequence file, in order to determine how to set up the process_radtags code (doing any of the commands we did earlier to look into the files).
+
+![](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/ddRAD-read.png?raw=true)
+
+To triple-check your barcode layout, look into your **gzipped** file to see how barcodes are setup and figure out the stacks code with whether the barcode occurs in line with the sequence or not. This is not super simple, and usually takes a couple of tries before it works! 
+
+
+
+The general code we will use for process_radtags, running it from within the raw-data folder, is the following: 
+
+
+	process_radtags -p . -b ./barcodes_pool1.txt -o ./demultiplexing-test -c -q -r -D --inline_index --renz_1 sphI --renz_2 mspI -i gzfastq
+
+
+**What do our demultiplexed files look like...?**
+
+
+
 
 Copy scripts to your virtual machine Applications folder via git
 ```bash
@@ -394,6 +420,20 @@ Now we have our 2bRAD reads separated by barcode and trimmed (steps 1 & 2)!<br>
 Using the barcode file [here](https://raw.githubusercontent.com/rdtarvin/RADseq_Quito_2017/master/files/2bRAD-ipyrad_barcodes.txt) and the command `mv`, 
 rename all .gz files to have the format `genX_spX-X_R1_.fastq.gz`.<br>
 
+
+
+Ok this is all great but there isn't much of a point to work bioinformatically with the files in their unzipped (large) format. So let's rezip them.
+
+```bash
+gzip *.fastq
+```
+
+There are actually several ways to look at .gz files, such as:
+```
+zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
+gzcat epiddrad_t200_R1_.fastq.gz | head # the "|" pipes stdout to the program "head"
+gzcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
+```
 
 <br><br>
 
