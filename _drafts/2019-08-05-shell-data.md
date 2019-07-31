@@ -110,10 +110,11 @@ go make mistakes
 cd # go to root of file system
 mkdir workshop 
 cd workshop
-# use ctrl+shift+v to paste within the VM
-wget -O 2bRAD.zip 'https://www.dropbox.com/sh/z2l0w2dq89oo55i/AAD_29lBe0MvLYLdxDB4Vm-2a?dl=1'
-# wget is a way to transfer files using a url from the command line
-# -O option makes sure the download doesn't have a wonky name like AAD_29lBe0MvLYLdxDB4Vm-2a
+curl -L -O https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/master/data/epiddrad_t200_R[1-2]_.fastq.gz?raw=true
+# curl is a way to transfer files using a url from the command line
+# -O option makes curl write to a file rather than stdout
+# -L option forces curl to follow a redirect (determined by the web address)
+# [1-2] downloads files that have a 1 or a 2 in that position
 ```
 
 ### Looking at your raw data in the linux environment
@@ -123,30 +124,60 @@ Your files will likely be gzipped and with the file extension **.fq.gz** or **fa
 ```bash
 ls # list all files in current directory
 ls .. # list all files in one directory above
-unzip 2bRAD.zip
-cd 2bRAD
-ls -lht # view all files with details and in order by when they were modified, with human-readable file sizes
-rm 2bRAD.zip # IMPORTANT: removing files from the command line is permanent!!!! There is no trash
-zless T36R59_I93_S27_L006_R1_sub12M.fastq.gz # press 'q' to exit
+# rename files
+mv epiddrad_t200_R1_.fastq.gz?raw=true epiddrad_t200_R1_.fastq.gz
+mv epiddrad_t200_R2_.fastq.gz?raw=true epiddrad_t200_R2_.fastq.gz
 ```
+Let's move these files into a new directory
 
 ```bash
-head T36R59_I93_S27_L006_R1_sub12M.fastq
+mkdir epi
+mv *.gz epi
+ls
+cd epi
+ls -lht # -l = long format, -h = human readable, -t = order by time
+```
+Great! Now let's look at the files.
+
+```bash
+head epiddrad_t200_R1_.fastq.gz
 ```
 
+Oops, what happened?! This gibberish is because of the format of the file, which is "gz" or "g-zipped". Let's unzip
+
+
+```bash
+gunzip *.gz
+ls -lht
+```
+You can see that the size of the files expanded. Now try to peek:
+
+```bash
+head epiddrad_t200_R1_.fastq.gz
+```
 This is the fastq format, which has four lines. 
 
 ```bash
-@K00179:73:HJCTJBBXX:6:1101:25905:1226 1:N:0:TGTTAG 
-TNGACCAACTGTGGTGTCGCACTCACTTCGCTGCTCCTCAGGAGACAGAT 
-+ 
-A!AFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ 
+@K00179:78:HJ2KFBBXX:5:1121:25844:7099 1:N:0:TGACCA+AGATCT
+GCATGCATGCAGCTTCTTCCTTCACATGATCTTCCACACGGTGCTTAGCTTTTTATAAAGGTGACTTCACGCACCGCGTTCATTGCAGTCAGAAGTGGCTTCAAAGGGAAATGGAAATGAATGACTTTTACTTCTCCTTTTCTCTGGATC
++
+AAFFFF7FF7AAJFFJJJJJJJJJJJJJFJJFFJJJF<AFF-FFJJ<JJFJFF-F--7AJJ<J<JFJJ-FFFJF-AFJFJAFJJJJJJJJFA7AFFFFFJ7JAJAJJJ<J<7FF7A-AAJJJ<FJ-77A7FFAA-AAAAFF7FJJF<AFJ
 
 # sequencer name:run ID:flowcell ID:flowcell lane:tile number in flow cell:x-coordinate of cluster :y-coordinate pair member:filtered?:control data:index sequence
 # DNA sequence
 # separator, can also sometimes (not often) hold extra information about the read
 # quality score for each base
 ```
+
+Ok this is great but there isn't much of a point to work with the files in their unzipped (large) format. So let's rezip them.
+```bash
+gzip *.fastq
+# there are several ways to look at .gz files, such as:
+zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
+zcat epiddrad_t200_R1_.fastq.gz | head
+zcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
+```
+
 
 Ok, now lets look at the full file:
 
