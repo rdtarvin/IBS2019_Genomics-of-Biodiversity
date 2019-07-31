@@ -295,7 +295,7 @@ So, let's build the barcodes file for demultiplexing, where the first column wil
 
 <details> 
   <summary>Side-note </summary>
-   grep (Global regular expression print) is one of the most amazing things about text editors. Try this on the epi_barcodes.txt file<br>
+   grep (Global regular expression print) is one of the most amazing things about text editors. <br>Try this on the epi_barcodes.txt file<br>
    Search for
 <code>
 (.*)\t(.*)
