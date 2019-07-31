@@ -293,9 +293,9 @@ So, let's build the barcodes file for demultiplexing, where the first column wil
 
 **There are MANY ways to build this file.... how do you want to do it?**
 
-**Side-note**
 <details> 
-  <summary>grep (Global regular expression print) is one of the most amazing things about text editors. Try this on the epi\_barcodes.txt file </summary>
+  <summary>Side-note </summary>
+   grep (Global regular expression print) is one of the most amazing things about text editors. Try this on the epi\_barcodes.txt file<br>
    Search for
 <code>
 (.*)\t(.*)
@@ -305,23 +305,6 @@ and replace with
 \2\tAGATCT\t\1
 </code>
 </details> 
-
-Side-note: 
-
-Search for
-```bash
-(.*)\t(.*)
-```
-and replace with
-```bash
-\2\tAGATCT\t\1
-```
-
-![](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/ddRAD-read.png?raw=true)
-
-To triple-check your barcode layout, look into your **gzipped** file to see how barcodes are setup and figure out the stacks code with whether the barcode occurs in line with the sequence or not. This is not super simple, and usually takes a couple of tries before it works! 
-
-
 
 The general code we will use for process_radtags, running it from within the raw-data folder, is the following: 
 
