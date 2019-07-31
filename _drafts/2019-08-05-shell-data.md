@@ -153,11 +153,11 @@ ls -lht
 You can see that the size of the files expanded. Now try to peek:
 
 ```bash
-head epiddrad_t200_R1_.fastq.gz
+head epiddrad_t200_R1_.fastq
 ```
 This is the fastq format, which has four lines. 
 
-```bash
+```
 @K00179:78:HJ2KFBBXX:5:1121:25844:7099 1:N:0:TGACCA+AGATCT
 GCATGCATGCAGCTTCTTCCTTCACATGATCTTCCACACGGTGCTTAGCTTTTTATAAAGGTGACTTCACGCACCGCGTTCATTGCAGTCAGAAGTGGCTTCAAAGGGAAATGGAAATGAATGACTTTTACTTCTCCTTTTCTCTGGATC
 +
@@ -169,22 +169,11 @@ AAFFFF7FF7AAJFFJJJJJJJJJJJJJFJJFFJJJF<AFF-FFJJ<JJFJFF-F--7AJJ<J<JFJJ-FFFJF-AFJFJ
 # quality score for each base
 ```
 
-Ok this is great but there isn't much of a point to work with the files in their unzipped (large) format. So let's rezip them.
-```bash
-gzip *.fastq
-```
-There are actually several ways to look at .gz files, such as:
-```
-zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
-zcat epiddrad_t200_R1_.fastq.gz | head
-zcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
-```
 
-
-Ok, now lets look at the full file:
+Ok, now lets look at the full file with the `cat` program:
 
 ```bash
-cat T36R59_I93_S27_L006_R1_sub12M.fastq
+cat epiddrad_t200_R1_.fastq
 ```
 
 Uh oh... let's quit before the computer crashes... it's too much to look at! `Ctrl+C`<br><br>
@@ -193,57 +182,71 @@ open a file in its entirety! Here are some alternative ways to view parts of a f
 
 ```bash
 # print the first 10 lines of a file
-head T36R59_I93_S27_L006_R1_sub12M.fastq 
+head epiddrad_t200_R1_.fastq
 
 # print the first 20 lines of a file
-head -20 T36R59_I93_S27_L006_R1_sub12M.fastq # '-20' is an argument for the 'head' program
+head epiddrad_t200_R1_.fastq -20 # '-20' is an argument for the 'head' program
 
 # print lines 190-200 of a file
-head -200 T36R59_I93_S27_L006_R1_sub12M.fastq | tail # 'pipes' the first 200 lines to a program called tail, which prints the last 10 lines
+head -200 epiddrad_t200_R1_.fastq | tail # 'pipes' the first 200 lines to a program called tail, which prints the last 10 lines
 
 # view the file interactively
-less T36R59_I93_S27_L006_R1_sub12M.fastq # can scroll through file with cursor, page with spacebar; quit with 'q'
+less epiddrad_t200_R1_.fastq # can scroll through file with cursor, page with spacebar; quit with 'q'
 # NOTE: here we can use less because the file is not in gzipped (remember that required the 'zless' command)
 
 # open up manual for less program
 man less # press q to quit
 
 # print only the first 10 lines and only the first 30 characters of each line
-head -200 T36R59_I93_S27_L006_R1_sub12M.fastq | cut -c -30 
+head -200 epiddrad_t200_R1_.fastq | cut -c -30 
 
 # count the number of lines in the file
-wc -l T36R59_I93_S27_L006_R1_sub12M.fastq # (this takes a moment because the file is large)
+wc -l epiddrad_t200_R1_.fastq # (this takes a moment because the file is large)
 
 # print lines with AAAAA in them
-grep 'AAAAA' T36R59_I93_S27_L006_R1_sub12M.fastq # ctrl+c to exit
+grep 'AAAAA' epiddrad_t200_R1_.fastq # ctrl+c to exit
 
 # count lines with AAAAA in them
-grep -c 'AAAAA' T36R59_I93_S27_L006_R1_sub12M.fastq 
+grep -c 'AAAAA' epiddrad_t200_R1_.fastq
 
 # save lines with AAAAA in them as a separate file
-grep 'AAAAA' T36R59_I93_S27_L006_R1_sub12M.fastq > AAAAA # no file extensions necessary!!
+grep 'AAAAA' epiddrad_t200_R1_.fastq > AAAAA # no file extensions necessary!!
 
 # add lines with TTTTT to the AAAAA file: '>' writes or overwrites file; '>>' writes or appends to file
-grep 'TTTTT' T36R59_I93_S27_L006_R1_sub12M.fastq >> AAAAA 
+grep 'TTTTT' epiddrad_t200_R1_.fastq >> AAAAA 
 
 # print lines with aaaaa in them
-grep 'aaaaa' T36R59_I93_S27_L006_R1_sub12M.fastq 
+grep 'aaaaa' epiddrad_t200_R1_.fastq
 # why doesn't this produce any output?
 
 # count number of uniq sequences in file with pattern 'AGAT'
-grep 'AGAT' T36R59_I93_S27_L006_R1_sub12M.fastq | sort | uniq | wc -l
+grep 'AGAT' epiddrad_t200_R1_.fastq | sort | uniq | wc -l
 
 # print only the second field of the sequence information line
-head T36R59_I93_S27_L006_R1_sub12M.fastq | grep '@' | awk -F':' '{ print $2 }' 
+head epiddrad_t200_R1_.fastq | grep '@' | awk -F':' '{ print $2 }' 
 # awk is a very useful program for parsing files; here ':' is the delimiter, $2 is the column location
 ```
 
+Ok this is all great but there isn't much of a point to work bioinformatically with the files in their unzipped (large) format. So let's rezip them.
+
+```bash
+gzip *.fastq
+```
+
+There are actually several ways to look at .gz files, such as:
+```
+zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
+gzcat epiddrad_t200_R1_.fastq.gz | head # the "|" pipes stdout to the program "head"
+gzcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
+```
 
 **Challenge**
 <details> 
   <summary>How would you count the number of reads in your file? </summary>
    There are lots of answers for this one. One example: in the fastq format, the character '@' occurs once per sequence, so we can just count how many lines contain '@'.<br> 
    <code>grep -c '@' T36R59_I93_S27_L006_R1_sub12M.fastq</code>
+   Alternative fancy answer:
+   <code>wc -l epiddrad_t200_R1_.fastq | expr `awk -F' ' '{ print $1 }'` / 4</code>
 </details> 
 
 
