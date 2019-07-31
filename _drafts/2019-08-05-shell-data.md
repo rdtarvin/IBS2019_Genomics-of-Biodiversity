@@ -256,8 +256,8 @@ Step 0. Use fastqc to check read quality.
 # unzip fastqc_v0.11.5.zip
 
 # let's take a look at fastqc options
-fastqc -h
-fastqc *.fastq
+/usr/local/bin/FastQC/fastqc -h
+/usr/local/bin/FastQC/fastqc *.fastq
 ```
 
 When the program is finished, take a look at what files are in the directory using `ls`.
@@ -271,17 +271,15 @@ open epiddrad_t200_R1__fastqc.html
 Sequencing quality scores, "Q", run from 20 to 40. In the fastq file, these are seen as ASCII characters. 
 The values are log-scaled: 20 = 1/100 errors; 30 = 1/1000 errors. Anything below 20 is garbage and anything between 20 and 30 should be reviewed.
 There appear to be errors in the kmer content, but really these are just showing where the barcodes and restriction enzyme sites are. 
-Let's take a look at what 2bRAD reads look like:
+Let's take a look at what ddRAD reads look like:
 
 ![](https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/master/images/ddRAD-read.png?raw=true)
 
 Ok, we can see that overall our data are of high quality (high Q scores, no weird tile patterns, no adaptor contamination). Time to move on to the assembly!!
 
 
-Step 1. Demultiplex by barcode in **2bRAD native pipeline**
+Step 1. Demultiplex by barcode in **STACKS**
 ---
-
-
 
 Demultiplexing your sequencing pools is always the first step in any pipeline. In stacks, the files you need for demultiplexing are: 
 
@@ -291,15 +289,33 @@ Demultiplexing your sequencing pools is always the first step in any pipeline. I
 
 First, let's take a look at the Stacks Manual for [process_radtags](http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php) to see how to set up our barcodes file. 
 
-So, let's build the barcodes file for demultiplexing, where the first column will be the unique adapter sequence using this [text file](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/STACKS/demultiplexing/Pool_1_barcodes.txt), the second column is the index primer sequence (in this case, ATCACG), and the third column is the individual sample names, found [here](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/files/STACKS/demultiplexing/Pool_1_sample_names.txt).The sample names occur in the same order as the barcodes in the example file.
+So, let's build the barcodes file for demultiplexing, where the first column will be the unique adapter sequence using the second column in this [text file](https://raw.githubusercontent.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/master/data/epi_barcodes.txt), the second column is the index primer sequence (in this case, AGATCT), and the third column is the individual sample names (first column in the referenced file). 
 
 **There are MANY ways to build this file.... how do you want to do it?**
 
-**NOTE 1**: whenever editing text files, first, NEVER use what you exported from excel or word directly... always check in a simple text editor (Text Wrangler, BBEdit, etc) and using "view invisible characters" to avoid unnecesary headaches of hidden characters or extra spaces/tabs, etc! Biggest waste of time in anything computing... 
+**Side-note**
+<details> 
+  <summary>grep (Global regular expression print) is one of the most amazing things about text editors. Try this on the epi\_barcodes.txt file </summary>
+   Search for
+<code>
+(.*)\t(.*)
+</code>
+and replace with
+<code>
+\2\tAGATCT\t\1
+</code>
+</details> 
 
-**NOTE 2**: For stacks, you need to have the appropriate barcode files within the appropriate library folders if demultiplexing libraries separately.
+Side-note: 
 
-**NOTE 3**: Figure out how your barcodes are set up within your sequence file, in order to determine how to set up the process_radtags code (doing any of the commands we did earlier to look into the files).
+Search for
+```bash
+(.*)\t(.*)
+```
+and replace with
+```bash
+\2\tAGATCT\t\1
+```
 
 ![](https://github.com/rdtarvin/RADseq_Quito_2017/blob/master/images/ddRAD-read.png?raw=true)
 
