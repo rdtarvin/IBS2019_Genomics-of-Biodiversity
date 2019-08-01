@@ -1,0 +1,241 @@
+---
+layout: default
+order: 3
+title:  "Getting Started in Shell"
+date:   2019-08-05
+time:   "10:00-10:30"
+categories: main
+instructor: "Becca"
+materials: files/fakefile.txt
+material-type: ""
+lesson-type: Interactive
+---
+
+### Before we break for coffee, start downloading the data that will be used in the next lessons. 
+Open the program Terminal and type the following commands.
+
+```bash
+cd # go to root of file system
+mkdir workshop 
+cd workshop
+curl -L -O https://github.com/rdtarvin/IBS2019_Genomics-of-Biodiversity/blob/master/data/epiddrad_9M_R[1-2]_.fastq.gz?raw=true
+# curl is a way to transfer files using a url from the command line
+# -O option makes curl write to a file rather than stdout
+# -L option forces curl to follow a redirect (determined by the web address)
+# [1-2] downloads files that have a 1 or a 2 in that position
+```
+
+
+### Getting started in shell  
+<br>
+
+## The linux environment
+
+### File systems
+- your computer contains a nested hierarchy of directories
+- **directory** is a *folder* on your computer which contains files
+- keeping track of where you are in the file structure of your computer is an important component of computing
+- highest level is the **root** (denoted: `/`)
+- forward slashes divide levels in the nested hierarchy of directories, e.g. `/top_level_directory/second_level_directory`
+- there are several high-level directories that users don't usually go into where program files are stored
+	- /usr/bin
+	- /usr/lib
+- every file on your computer has an address; if you are going to do an operation on a file, you need its address
+- **path**: the *address* to a directory or file on your computer. There are, generally, two types of paths:
+	- **absolute/full path** represents the path of a given directory or file beginning at the root directory
+    - **relative path** represents the path of a given directory/file relative to the working/current directory
+- for example, say you have a file "my_favorite_file.txt" located in the directory `/Users/myname/Desktop/my_directory`.
+	- the **full path** to this file  is `/Users/myname/Desktop/my_directory/my_favorite_file.txt`
+    - the **relative path** to this file depends on where you are on the computer
+	- if you are calling this file from Desktop, the relative path would be `my_directory/my_favorite_file.txt`
+	- if you are in `/Users/myname/`, the relative path becomes `Desktop/my_directory/my_favorite_file.txt`
+    
+Remember - *Whenever you call the full path, you can reach the file from anywhere on your computer. Relative paths will change based on your current location.*
+
+### Unix
+- commands are small programs
+	- type the name of a command and hit enter
+	- Unix searches for the program's text file and executes it
+- programs have preset arguments which change their behavior
+	- these can be found in the program's manual
+- programs interact with files that are in the directory that you are in
+- we use a "shell" to interact with Unix: it exchanges information between user and program through *standard streams*
+- **standard input**: input to programs
+- **standard output**: information on screen, i.e. what the program outputs
+- standard text editor for Unix is nano
+	- type `nano` to access it
+	- opens a text editor within the shell
+	- saving, exiting, and other functions are controlled with ctrl + letter keys
+	- we will be using primarily the Atom text editor instead of nano
+
+
+### Here are some commands you will use all the time, we will review them as we proceed with the lesson
+
+Command | Translation | Examples
+--------|-------------|---------
+`cd` | **c**hange **d**irectory | `cd /absolute/path/of/the/directory/` <br> Go to the home directory by typing simply  `cd` or `cd ~` <br> Go up (back) a directory by typing `cd ..`
+`pwd` | **p**rint **w**orking **d**irectory | `pwd`
+`mkdir` | **m**ake **dir**ectory | `mkdir newDirectory` creates newDirectory in your current directory <br> Make a directory one level up with `mkdir ../newDirectory`
+`cp` | **c**o<b>p</b>y | `cp file.txt newfile.txt` (and file.txt will still exist!)
+`mv` | **m**o<b>v</b>e | `mv file.txt newfile.txt` (but file.txt will *no longer* exist!)
+`rm` | **r**e<b>m</b>ove | `rm file.txt` removes file.txt <br> `rm -r directoryname/` removes the directory and all files within
+`ls` | **l**i<b>s</b>t | `ls *.txt` lists all .txt files in current directory <br> `ls -a` lists all files including hidden ones in the current directory <br> `ls -l` lists all files in current directory including file sizes and timestamps <br> `ls -lh` does the same but changes file size format to be **h**uman-readable <br> `ls ../` lists files in the directory above the current one
+`man` | **man**ual | `man ls` opens the manual for command `ls` (use `q` to escape page)
+`grep` | **g**lobal **r**egular <br> **e**xpression **p**arser |  `grep ">" seqs.fasta` pulls out all sequence names in a fasta file <br> `grep -c ">" seqs.fasta` counts the number of those sequences <br> 
+`cat` | con<b>cat</b>enate | `cat seqs.fasta` prints the contents of seqs.fasta to the screen (ie stdout)
+`head` | **head** | `head seqs.fasta` prints the first 10 lines of the file <br> `head -n 3 seqs.fasta` prints first 3 lines
+`tail` | **tail** | `tail seqs.fasta` prints the last 10 lines of the file <br> `tail -n 3 seqs.fasta` prints last 3 lines
+`wc` | **w**ord **c**ount | `wc filename.txt` shows the number of new lines, number of words, and number of characters <br> `wc -l filename.txt` shows only the number of new lines <br> `wc -c filename.txt` shows only the number of characters
+`sort` | **sort** | `sort filename.txt` sorts file and prints output
+`uniq` | **uniq**ue | `uniq -u filename.txt` shows only unique elements of a list <br> (must use sort command first to cluster repeats)
+
+<br>
+<br>
+
+### Handy dandy shortcuts
+
+Shortcut | Use|
+----------|-----|
+Ctrl + C | kills current process
+Ctrl + L <br> (or `clear`) | clears screen
+Ctrl + A | Go to the beginning of the line
+Ctrl + E | Go to the end of the line
+Ctrl + U | Clears the line before the cursor position
+Ctrl + K | Clear the line after the cursor
+`*` | wildcard character
+tab | completes word
+Up Arrow | call last command
+`.` | current directory
+`..` | one level up 
+`~` | home
+`>` | redirects stdout to a file, *overwriting* file if it already exists
+`>>` | redirects stdout to a file, *appending* to the end of file if it already exists
+pipe (<code>&#124;</code>) | redirects stdout to become stdin for next command
+
+
+Keep in mind:
+Good judgment comes from experience
+experience comes from bad judgment
+go make mistakes
+
+
+### Looking at your raw data in the linux environment
+
+Your files will likely be gzipped and with the file extension **.fq.gz** or **fastq.gz**. The first thing you want to do is look at the beginning of your files while they are still gzipped.
+
+```
+ls # list all files in current directory
+ls .. # list all files in one directory above
+# rename files
+mv epiddrad_9M_R1_.fastq.gz?raw=true epiddrad_9M_R1_.fastq.gz
+mv epiddrad_9M_R2_.fastq.gz?raw=true epiddrad_9M_R2_.fastq.gz
+```
+Let's move these files into a new directory
+
+```bash
+mkdir epi
+mv *.gz epi
+ls
+cd epi
+ls -lht # -l = long format, -h = human readable, -t = order by time
+```
+Great! Now let's look at the files.
+
+```bash
+head epiddrad_9M_R1_.fastq.gz
+```
+
+Oops, what happened?! This gibberish is because of the format of the file, which is "gz" or "g-zipped". Let's unzip
+
+
+```bash
+gunzip *.gz
+ls -lht
+```
+You can see that the size of the files expanded. Now try to peek:
+
+```bash
+head epiddrad_9M_R1_.fastq
+```
+This is the fastq format, which has four lines. 
+
+```
+@K00179:78:HJ2KFBBXX:5:1121:25844:7099 1:N:0:TGACCA+AGATCT
+GCATGCATGCAGCTTCTTCCTTCACATGATCTTCCACACGGTGCTTAGCTTTTTATAAAGGTGACTTCACGCACCGCGTTCATTGCAGTCAGAAGTGGCTTCAAAGGGAAATGGAAATGAATGACTTTTACTTCTCCTTTTCTCTGGATC
++
+AAFFFF7FF7AAJFFJJJJJJJJJJJJJFJJFFJJJF<AFF-FFJJ<JJFJFF-F--7AJJ<J<JFJJ-FFFJF-AFJFJAFJJJJJJJJFA7AFFFFFJ7JAJAJJJ<J<7FF7A-AAJJJ<FJ-77A7FFAA-AAAAFF7FJJF<AFJ
+
+# sequencer name:run ID:flowcell ID:flowcell lane:tile number in flow cell:x-coordinate of cluster :y-coordinate pair member:filtered?:control data:index sequence
+# DNA sequence
+# separator, can also sometimes (not often) hold extra information about the read
+# quality score for each base
+```
+
+
+Ok, now lets look at the full file with the `cat` program:
+
+```bash
+cat epiddrad_9M_R1_.fastq
+```
+
+Uh oh... let's quit before the computer crashes... it's too much to look at! `Ctrl+C`<br><br>
+This is the essential computational problem with NGS data that is so hard to get over. You can't
+open a file in its entirety! Here are some alternative ways to view parts of a file at a time.
+
+
+	# print the first 10 lines of a file
+	head epiddrad_9M_R1_.fastq
+
+	# print the first 20 lines of a file
+	head epiddrad_9M_R1_.fastq -20 # '-20' is an argument for the 'head' program
+
+	# print lines 190-200 of a file
+	head -200 epiddrad_9M_R1_.fastq | tail # 'pipes' the first 200 lines to a program called tail, which prints the last 10 lines
+
+	# view the file interactively
+	less epiddrad_9M_R1_.fastq # can scroll through file with cursor, page with spacebar; quit with 'q'
+	# NOTE: here we can use less because the file is not in gzipped (remember that required the 'zless' command)
+
+	# open up manual for less program
+	man less # press q to quit
+
+	# print only the first 10 lines and only the first 30 characters of each line
+	head -200 epiddrad_9M_R1_.fastq | cut -c -30 
+
+	# count the number of lines in the file
+	wc -l epiddrad_9M_R1_.fastq # (this takes a moment because the file is large)
+
+	# print lines with AAAAA in them
+	grep 'AAAAA' epiddrad_9M_R1_.fastq # ctrl+c to exit
+
+	# count lines with AAAAA in them
+	grep -c 'AAAAA' epiddrad_9M_R1_.fastq
+
+	# save lines with AAAAA in them as a separate file
+	grep 'AAAAA' epiddrad_9M_R1_.fastq > AAAAA # no file extensions necessary!!
+
+	# add lines with TTTTT to the AAAAA file: '>' writes or overwrites file; '>>' writes or appends to file
+	grep 'TTTTT' epiddrad_9M_R1_.fastq >> AAAAA 
+
+	# print lines with aaaaa in them
+	grep 'aaaaa' epiddrad_9M_R1_.fastq
+	# why doesn't this produce any output?
+
+	# count number of uniq sequences in file with pattern 'AGAT'
+	grep 'AGAT' epiddrad_9M_R1_.fastq | sort | uniq | wc -l
+
+	# print only the second field of the sequence information line
+	head epiddrad_9M_R1_.fastq | grep '@' | awk -F':' '{ print $2 }' 
+	# awk is a very useful program for parsing files; here ':' is the delimiter, $2 is the column location
+
+
+
+
+**Challenge**
+<details> 
+  <summary>How would you count the number of reads in your file? </summary>
+   There are lots of answers for this one. One example: in the fastq format, the character '@' occurs once per sequence, so we can just count how many lines contain '@'.<br> 
+   <code>grep -c '@' epiddrad_9M_R1_.fastq.gz</code>
+</details> 
+
+
