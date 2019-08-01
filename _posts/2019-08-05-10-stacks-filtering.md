@@ -1,6 +1,6 @@
 ---
 layout: default
-order: 8
+order: 10
 title:  "General genotyping pipeline and filtering components"
 date:   2019-08-05
 time:   "14:30-15:15"
