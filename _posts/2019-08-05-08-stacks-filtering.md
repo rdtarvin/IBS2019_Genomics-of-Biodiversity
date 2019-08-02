@@ -1,15 +1,55 @@
 ---
 layout: default
-order: 10
-title:  "General genotyping pipeline and filtering components"
+order: 8
+title:  "exporting and filtering matrices"
 date:   2019-08-05
-time:   "16:30-17:30"
+time:   "14:00-15:00"
 categories: main
-instructor: "Pati"
+instructor: "Becca & Pati"
 materials: "https://docs.google.com/presentation/d/1ZfCd0jIuNm4MwdCTw0MOXtyLBBlpRB3Xt_jHWhOcQhk/pub?start=false&loop=false&delayms=60000"
 material-type: "ppt"
-lesson-type: Lecture
+lesson-type: Interactive
 ---
+
+
+Getting the output with **populations**
+----
+
+The final step in the stacks pipeline is to run the program **populations**. Similar to step 7 in ipyrad, it outputs/summarizes your data into formats you specify. However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!  
+
+To run **populations**, we first need to develop a popmap file, which simply contains names of sequences (first column)and some population code (second column)that they belong to, tab delimited. Our sample/file names alrady contain the population information, so try to build it yourself.... how do you want to do it???
+
+
+
+Now, let's run **populations** using the following command:
+
+    populations -P ./denovo -M ./epi_popmap.txt  --vcf  # takes ~3min
+    # you can also produce outputs for STRUCTURE and GENEPOP, along with specific phylip files (but be careful in how you create these!) and full loci fasta files
+    # this is the bare minimum for run populations, you can also filter for minimum number of individuals per population or minor allele frequency, etc. 
+    # Pati will go more into filtering later
+
+
+<br><br>
+
+A full run of these analyses can be downloaded [here]()
+
+<br><br>
+
+<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/07-raxml-epi.html"><button>Next Lesson</button></a>
+
+
+## Appendix
+
+
+
+There are actually several ways to look at .gz files, such as:
+```
+zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
+gzcat epiddrad_t200_R1_.fastq.gz | head # the "|" pipes stdout to the program "head"
+gzcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
+```
+
+
 
 ## alternatively we can do Q&A, future of genomics, or something else
 

@@ -1,9 +1,9 @@
 ---
 layout: default
-order: 3
-title:  "Understanding RADseq libraries and data"
+order: 6
+title:  "Understanding pipeline generalities"
 date:   2019-08-05
-time:   "11:30-12:00"
+time:   "12:30-1:00"
 categories: main
 instructor: "Pati"
 materials: "dropbox link"
