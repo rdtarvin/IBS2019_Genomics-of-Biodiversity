@@ -31,16 +31,17 @@ Now, let's run **populations** using the following command:
 
 <br><br>
 
-A full run of these analyses can be downloaded [here]()
+
 
 <br><br>
 
-<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/07-raxml-epi.html"><button>Next Lesson</button></a>
+<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/06-stacks-pipeline.html"><button>Previous Lesson</button></a><a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>Next Lesson</button></a>
 
 
 ## Appendix
 
-
+If you're unable to perform the populations step, you can download the complete denovo folder (with populations output) [here](https://drive.google.com/drive/folders/1RdCsMo6YpOppUigrDgdDv7ju3xaBFD2G?usp=sharing).<br>
+A full run of stacks with these data (approx 1.5GB) can be downloaded [here](https://drive.google.com/drive/folders/172ZgAdYmVJhZ_ILaKgY5EHRqV-dWnf_y?usp=sharing).<br>
 
 There are actually several ways to look at .gz files, such as:
 ```
@@ -135,7 +136,6 @@ We will use many of these outputs for downstream analyses. Outputs are:
 	batch_2.populations.log
 	batch_2.fst_summary.tsv
 	batch_2.fst_2-3.tsv
-
 
 
 
