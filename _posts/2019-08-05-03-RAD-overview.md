@@ -1,9 +1,9 @@
 ---
 layout: default
-order: 4
+order: 3
 title:  "RADseq Overview"
 date:   2019-08-05
-time:   "10:30-11:30"
+time:   "10:30-11:00"
 categories: main
 instructor: "Pati"
 materials: "dropbox link"
