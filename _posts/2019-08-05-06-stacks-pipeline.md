@@ -1,7 +1,7 @@
 ---
 layout: default
 order: 6
-title:  "Understanding pipeline generalities"
+title:  "genotyping pipelines and trobleshooting"
 date:   2019-08-05
 time:   "12:30-1:00"
 categories: main

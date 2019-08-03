@@ -1,7 +1,7 @@
 ---
 layout: default
 order: 4
-title:  "Understanding RADseq libraries"
+title:  "basics of RADseq libraries"
 date:   2019-08-05
 time:   "11:15-11:45"
 categories: main
