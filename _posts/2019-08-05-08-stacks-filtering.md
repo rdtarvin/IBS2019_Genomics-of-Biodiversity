@@ -15,9 +15,9 @@ lesson-type: Interactive
 Getting the output with **populations**
 ----
 
-The final step in the stacks pipeline is to run the program **populations**. Similar to step 7 in ipyrad, it outputs/summarizes your data into formats you specify. However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!  
+The final step in the stacks pipeline is to run the program **populations**, which is essentially just filtering, exporting, and summarizing data infor the formats that you soecify (as in, genotyping is already finished). However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!  
 
-To run **populations**, we first need to develop a popmap file, which simply contains names of sequences (first column)and some population code (second column)that they belong to, tab delimited. Our sample/file names alrady contain the population information, so try to build it yourself.... how do you want to do it???
+To run **populations**, we first need to develop a popmap file, which simply contains names of sequences (first column) and some population code (second column)that they belong to, tab delimited. Our sample/file names alrady contain the population information, so try to build it yourself.... how do you want to do it???
 
 
 
@@ -52,90 +52,33 @@ gzcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
 
 
 
-## alternatively we can do Q&A, future of genomics, or something else
 
-# Here's some text of yours from another lesson
-
-Before we move on to the next steps.... let's [talk a bit](https://docs.google.com/presentation/d/1ZfCd0jIuNm4MwdCTw0MOXtyLBBlpRB3Xt_jHWhOcQhk/pub?start=false&loop=false&delayms=60000) about post-genotyping filters and the nature of RADseq datasets and SNP matrices... 
-
-
-Post-filtering in **plink**
+Post-filtering in **vcftools**
 ----
-We are now going to filter our matrix to reduce biases and incorrect inferences due to missing data (in individuals and SNPs)and by Minor Allele Frequency. 
+First, let's remember the nature of RADseq datasets: what do we expect if we prepared our libraries based on a non-targeted loci protocol? What should our original SNP matrix - before we filter any final genotyped loci - look like? Could it look different depending on the divergence within our datasets?  
 
 
-1. First, we filter loci with less than 60% individuals sequenced
+
+The filters implemented in ***populations*** are not the best. One of the main filters, `-p`, essentially filters out loci that are not present in the number of populations you specify. Thus, depending on how you define your populations, and how many individuals are sampled within populations, some loci may be completely eliminated from your matrix, simply because a single individual, sole member of a population, was poorly genotyped and thus most good loci are being dropped because of this one bad individual! Similarly, the filter `-r` is filtering out according to a specified proportion of individuals within a population, so once again is very sensitive to how you define your populations in the first place! 
+
+
+Thus, it is better to have more control over filters that are implemented in your SNP matrices, and that are the least biased possible. For that, we will filter using the program [vcftools]() which uses the input file format `.vcf`, which we exported using populations, and run the three most important and commonly used filters: 
+
+1. First, filter loci with less than 60% individuals sequenced
 
 		./plink --file filename --geno 0.4 --recode --out filename_a --noweb
 
 
-2. Second, we filter individuals that have less than 50% data
+2. Then, filter individuals that have less than 50% data
 
 		./plink --file filename_a --mind 0.5 --recode --out filename_b --noweb
 
 
-3. Third, we filter loci with MAF < 0.02 in remaining individuals
+3. Third, filter loci with Minor Allele Frequency < 0.02 in remaining individuals and loci
 
 		/.plink --file filename_b --maf 0.02 --recode --out filename_c --noweb
 
+4. Other filters: We can also filter by 
 
-Second output from stacks *populations*
-----
-
-Now we are going to re-run the last step of the **STACKS** pipeline, so that we can get the nice population stats with out cleaner matrix. 
-
-We need to make a ***whitelist*** file, which is a list of the loci to include based on the plink results (i.e. on amount of missing data in locus). The whitelist file format is ordered as a simple text file containing one catalog locus per line: 
-
-		% more whitelist
-		3
-		7
-		521
-		11
-		46
-		103
-		972
-		2653
-		22
-		
-		
-In order to get from the .map file to the whitelist file format, open *_c.map file in Text Wrangler, and do find and replace arguments using **grep**:
-
-
-	search for \d\t(\d*)_\d*\t\d\t\d*$
-	replace with \1
-
-
-
-Using the **.irem** file from the second iteration of *plink* (in our example named with termination **"_b"**), remove any individuals from the first popmap if they did not pass **plink** filters so that they are excluded from the analysis (i.e. individuals with too much missing data). 
-
-
-Now we can run populations again using the whitelist of loci and the updated popmap file for loci and individuals to retain based on the plink filters.
-
-	populations -b 1 -P ./ -M ./popmap.txt  -p 1 -r 0.5 -W Pr-whitelist --write_random_snp --structure --plink --vcf --genepop --fstats --phylip
-	
-
-We will use many of these outputs for downstream analyses. Outputs are: 
-
-	batch_2.hapstats.tsv
-	batch_2.phistats.tsv
-	batch_2.phistats_1-2.tsv
-	batch_2.phistats_1-3.tsv
-	batch_2.phistats_2-3.tsv
-	batch_2.sumstats.tsv
-	batch_2.sumstats_summary.tsv
-	batch_2.haplotypes.tsv
-	batch_2.genepop
-	batch_2.structure.tsv
-	batch_2.plink.map
-	batch_2.plink.ped
-	batch_2.phylip
-	batch_2.phylip.log
-	batch_2.vcf
-	batch_2.fst_1-2.tsv
-	batch_2.fst_1-3.tsv
-	batch_2.populations.log
-	batch_2.fst_summary.tsv
-	batch_2.fst_2-3.tsv
-
-
-
+- Linkage Disequilibium: very important if running certain popgen stats
+- 
