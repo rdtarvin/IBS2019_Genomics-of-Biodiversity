@@ -6,8 +6,8 @@ date:   2019-08-05
 time:   "14:00-15:00"
 categories: main
 instructor: "Becca & Pati"
-materials: "https://docs.google.com/presentation/d/1ZfCd0jIuNm4MwdCTw0MOXtyLBBlpRB3Xt_jHWhOcQhk/pub?start=false&loop=false&delayms=60000"
-material-type: "ppt"
+materials: ""
+material-type: ""
 lesson-type: Interactive
 ---
 
