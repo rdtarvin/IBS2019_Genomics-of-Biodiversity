@@ -40,14 +40,21 @@ Thus, it is better to have more control over filters that are implemented in you
 
 1. First, let's filter loci with less than 50% individuals sequenced
 
-		./vcftools --vcf filename --max-missing 0.5 --recode --out filename_b
+		./vcftools --vcf populations.snps.vcf --max-missing 0.5 --recode --out filtered.snps
 
 
 2. Second, let's filter loci with Minor Allele Frequency < 0.02 in remaining individuals and loci
 
-		./vcftools --vcf filename_b --maf 0.02 --recode --out filename_c 
+		./vcftools --vcf filtered.snps.recode.vcf --maf 0.02 --recode --out filtered.snps.b
+		
+hmmm... nothing was actually filtered, let's change so taht now it's not frequency but absolute count using `-mac` such that: 
 
-3. Other filters can also do:
+	 ./vcftools --vcf filtered.snps.recode.vcf --mac 1  --recode --out filtered.snps.b
+
+What happens if we continue to increase `mac`, do we lose any loci? 
+
+
+3. Other filters we can also do:
 
 - 
 - Linkage Disequilibium: very important if running certain popgen stats
