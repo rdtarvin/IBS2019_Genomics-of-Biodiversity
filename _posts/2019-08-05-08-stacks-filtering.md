@@ -31,7 +31,9 @@ You can export in may other formats, such as STRUCTURE and GENEPOP, along with s
 
 Post-filtering in **vcftools**
 ----
-First, let's remember the nature of RADseq datasets: what do we expect if we prepared our libraries based on a non-targeted loci protocol? What should our original SNP matrix - before we filter any final genotyped loci - look like? Could it look different depending on the divergence within our datasets?  
+First, let's remember the nature of RADseq datasets: what do we expect if we prepared our libraries based on a non-targeted loci protocol? What should our original SNP matrix - before we filter any final genotyped loci - look like? Could it look different depending on the divergence within our datasets? 
+
+Let's go to this [mini lecture](https://docs.google.com/presentation/d/e/2PACX-1vS7BfHaXcT1ZMqvG-rrN_3Fg3n2ip66dONN6ocaJcP4Hi_dmpspbhaydAENEdEe5A/pub?start=false&loop=false&delayms=60000) to see more about patterns of missing data in GBS protocols and why filtering well is so crucial. 
 
 
 The filters implemented in ***populations*** are not the best. One of the main filters, `-p`, essentially filters out loci that are not present in the number of populations you specify. Thus, depending on how you define your populations, and how many individuals are sampled within populations, some loci may be completely eliminated from your matrix, simply because a single individual, sole member of a population, was poorly genotyped and thus most good loci are being dropped because of this one bad individual! Similarly, the filter `-r` is filtering out according to a specified proportion of individuals within a population, so once again is very sensitive to how you define your populations in the first place! 
@@ -57,7 +59,7 @@ What happens if we continue to increase `mac`, do we lose any loci?
 
 3. Other filters we can also do:
 
-- 
+- missing data by individual
 - Linkage Disequilibium: very important if running certain popgen stats
 - FST outliers > putatively adaptive loci
 - specific unwanted loci (using *whitelists* and *blacklists*)
@@ -72,7 +74,7 @@ Further, aside fro filtering in these programs you can also estimate lots of thi
 
 <br><br>
 
-<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/05-stacks-epi.html"><button>Stacks lesson</button></a><a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>RAxML</button></a>
+<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/06-stacks-pipeline.html"><button>Previous Lesson</button></a><a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>Next Lesson</button></a>
 
 
 ## Appendix
