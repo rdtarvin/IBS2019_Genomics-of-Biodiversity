@@ -8,7 +8,7 @@ X <- scaleGen(myFile, NA.method="zero")
 pca1<-dudi.pca(X,cent=FALSE,scale=FALSE,scannf=FALSE,nf=3)
 ############################################
 myCol <-c("darkgreen","darkblue")
-s.class(pca1$li,pop(myFile), col=myCol)
+s.class(pca1$li,pop(myFile), col=myCol_b)
 add.scatter.eig(pca1$eig[1:20], 3,1,2)
 ############################################
 s.label(pca1$li)
@@ -31,3 +31,4 @@ library(hierfstat)
 
 ############################################
 myFile <- import2genind("Msi_GP_in.gen") 
+myCol_b <-c("darkgreen","lightgreen","darkblue", "lightblue", "darkred", "lightred", "darkorange", "lightorange")
