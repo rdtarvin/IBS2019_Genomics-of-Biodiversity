@@ -16,7 +16,7 @@ lesson-type: Interactive
 Getting the output with **populations**
 ----
 
-The final step in the stacks pipeline is to run the program [**populations**](http://catchenlab.life.illinois.edu/stacks/comp/populations.php), which is essentially just filtering, exporting, and summarizing data infor the formats that you specify (as in, once genotyping is already finished). However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!  
+The final step in the stacks pipeline is to run the program [**populations**](http://catchenlab.life.illinois.edu/stacks/comp/populations.php), which is essentially just filtering, exporting, and summarizing data in the formats that you specify (as in, once genotyping is already finished). However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!  
 
 To run **populations**, we first need to develop a popmap file, which simply contains names of sequences (first column) and some population code (second column) that they belong to, tab delimited. Our sample file already contains the population information, so try to build it yourself.... how do you want to do it???
 
@@ -67,7 +67,7 @@ Here's a snippet of the [.vcf format](https://samtools.github.io/hts-specs/VCFv4
 	7	86	.	G	A	.	PASS	NS=3;AF=0.167	GT:DP:AD:GQ:GL	0/0:27:23,3:22:-0.01,-1.68,-42.85	0/1:7:3,4:40:-6.08,-0.00,-4.93	./.	0/0:36:36,0:40:-0.00,-10.93,-76.36	./.	./.	./.	./.	./.	./.	./.	./.
 
 
-You can export in may other formats such as specific phylip files (but be careful in how you create these!) and full loci fasta files. Thus, the above code is the bare minimum for run populations, you can do many other things, such as filter for minimum number of individuals per population or minor allele frequency, etc. However, it's better so use other more specialized filtering programs, such as `vcftools`, `plink`, and ``, that give you much more control and options over which filters you use! 
+You can export in many other formats such as specific phylip files (but be careful in how you create these!) and full loci fasta files. Thus, the above code is the bare minimum for run populations, you can do many other things, such as filter for minimum number of individuals per population or minor allele frequency, etc. However, it's better so use other more specialized filtering programs, such as `vcftools`, `plink`, that give you much more control and options over which filters you use! 
 
 Post-filtering in **vcftools**
 ----
