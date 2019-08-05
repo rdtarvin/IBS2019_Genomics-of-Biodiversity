@@ -22,10 +22,52 @@ To run **populations**, we first need to develop a popmap file, which simply con
 
 Now, let's run **populations** using the following command:
 
-    populations -P ./denovo -M ./epi_popmap.txt -p 1 --vcf  
-   
+    populations -P ./denovo -M ./epi_popmap.txt -p 1 --vcf  --structure --genepop
+    # -P is the path to the directory containing the Stacks files
+    # -p indicates minimum number of populations a locus must be present in to process a locus
+    # -M is the path to a population map
+    
+Here's a snippet of the .stru format
 
-You can export in may other formats, such as STRUCTURE and GENEPOP, along with specific phylip files (but be careful in how you create these!) and full loci fasta files. Thus, the above code is the bare minimum for run populations, you can do many other things, such as filter for minimum number of individuals per population or minor allele frequency, etc. However, it's better so use other more specialized filtering programs, such as `vcftools`, `plink`, and ``, that give you much more control and options over which filters you use! 
+	# Stacks v2.41;  Structure v2.3; August 05, 2019
+			2_32	2_70	4_23	4_68	6_176	6_223	6_248	7_85	7_124	11_204
+	Etri_T6836	Etri_T6836	0	0	1	1	1	1	1	3	2	2		
+	Etri_T6836	Etri_T6836	0	0	3	4	3	4	2	3	2	2		
+	Etri_T6842	Etri_T6842	2	3	0	0	3	4	2	1	2	2		
+	Etri_T6842	Etri_T6842	4	4	0	0	3	4	2	3	4	4		
+	Eant_T6857	Eant_T6857	0	0	0	0	0	0	0	0	0	0		
+	Eant_T6857	Eant_T6857	0	0	0	0	0	0	0	0	0	0		
+	Eant_T6859a	Eant_T6859a	0	0	1	4	0	0	0	3	2	0		
+	Eant_T6859a	Eant_T6859a	0	0	3	4	0	0	0	3	2	0		
+
+Here's a snippet of the [.vcf format](https://samtools.github.io/hts-specs/VCFv4.2.pdf)
+
+	##fileformat=VCFv4.2
+	##fileDate=20190805
+	##source="Stacks v2.41"
+	##INFO=<ID=AD,Number=R,Type=Integer,Description="Total Depth for Each Allele">
+	##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+	##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+	##INFO=<ID=NS,Number=1,Type=Integer,Description="Number of Samples With Data">
+	##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allele Depth">
+	##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">
+	##FORMAT=<ID=HQ,Number=2,Type=Integer,Description="Haplotype Quality">
+	##FORMAT=<ID=GL,Number=G,Type=Float,Description="Genotype Likelihood">
+	##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+	##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+	##INFO=<ID=loc_strand,Number=1,Type=Character,Description="Genomic strand the corresponding Stacks locus aligns on">
+	#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	Etri_T6836	Etri_T6842	Eant_T6857	Eant_T6859a	Eant_T6859b	Ahah_R0089a	Ahah_R0089b	Ahah_R0090	Ebou_R0153	Ebou_R0156	Snub_R0158	Snub_R0159
+	2	33	.	C	T	.	PASS	NS=1;AF=0.500	GT:DP:AD:GQ:GL	./.	0/1:6:1,5:14:-7.26,-0.05,-1.00	./.	./.	./.	./.	./.	./.	./.	./.	./.	./.
+	2	71	.	G	T	.	PASS	NS=1;AF=0.500	GT:DP:AD:GQ:GL	./.	0/1:6:1,5:25:-12.43,-0.00,-1.96	./.	./.	./.	./.	./.	./.	./.	./.	./.	./.
+	4	24	.	A	G	.	PASS	NS=3;AF=0.500	GT:DP:AD:GQ:GL	0/1:12:3,9:40:-24.47,-0.00,-6.20	./.	./.	0/1:10:2,8:40:-22.07,-0.00,-3.80	0/1:13:6,7:40:-18.17,-0.00,-14.90	./.	./.	./.	./.	./.	./.	./.
+	4	69	.	T	A	.	PASS	NS=3;AF=0.333	GT:DP:AD:GQ:GL	0/1:12:9,3:40:-5.82,-0.00,-24.40	./.	./.	0/0:10:10,0:32:-0.00,-2.58,-30.58	0/1:13:7,6:40:-14.52,-0.00,-18.10	./.	./.	./.	./.	./.	./.	./.
+	6	177	.	G	A	.	PASS	NS=2;AF=0.250	GT:DP:AD:GQ:GL	0/1:6:3,3:40:-5.51,-0.00,-6.32	0/0:7:7,0:26:-0.00,-2.03,-17.71	./.	./.	./.	./.	./.	./.	./.	./.	./.	./.
+	6	224	.	T	A	.	PASS	NS=2;AF=0.250	GT:DP:AD:GQ:GL	0/1:6:3,3:40:-5.51,-0.00,-6.32	0/0:7:7,0:26:-0.00,-2.03,-17.71	./.	./.	./.	./.	./.	./.	./.	./.	./.	./.
+	6	249	.	C	A	.	PASS	NS=2;AF=0.250	GT:DP:AD:GQ:GL	0/1:6:3,3:40:-5.51,-0.00,-6.32	0/0:7:7,0:26:-0.00,-2.03,-17.71	./.	./.	./.	./.	./.	./.	./.	./.	./.	./.
+	7	86	.	G	A	.	PASS	NS=3;AF=0.167	GT:DP:AD:GQ:GL	0/0:27:23,3:22:-0.01,-1.68,-42.85	0/1:7:3,4:40:-6.08,-0.00,-4.93	./.	0/0:36:36,0:40:-0.00,-10.93,-76.36	./.	./.	./.	./.	./.	./.	./.	./.
+
+
+You can export in may other formats such as specific phylip files (but be careful in how you create these!) and full loci fasta files. Thus, the above code is the bare minimum for run populations, you can do many other things, such as filter for minimum number of individuals per population or minor allele frequency, etc. However, it's better so use other more specialized filtering programs, such as `vcftools`, `plink`, and ``, that give you much more control and options over which filters you use! 
 
 Post-filtering in **vcftools**
 ----
