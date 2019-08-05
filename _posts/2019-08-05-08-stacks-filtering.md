@@ -80,12 +80,6 @@ Further, aside fro filtering in these programs you can also estimate lots of thi
 If you're unable to perform the populations step, you can download the complete denovo folder (with populations output) [here](https://drive.google.com/drive/folders/1RdCsMo6YpOppUigrDgdDv7ju3xaBFD2G?usp=sharing).<br>
 A full run of stacks with these data (approx 1.5GB) can be downloaded [here](https://drive.google.com/drive/folders/172ZgAdYmVJhZ_ILaKgY5EHRqV-dWnf_y?usp=sharing).<br>
 
-There are actually several ways to look at .gz files, such as:
-```
-zless epiddrad_t200_R1_.fastq.gz # press 'q' to exit
-gzcat epiddrad_t200_R1_.fastq.gz | head # the "|" pipes stdout to the program "head"
-gzcat epiddrad_t200_R1_.fastq.gz | head -100 # shows the first 100 lines
-```
 
 
 
