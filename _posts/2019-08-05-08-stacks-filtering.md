@@ -83,16 +83,16 @@ Thus, it is better to have more control over filters that are implemented in you
 
 1. First, let's filter loci with less than 50% individuals sequenced
 
-		./vcftools --vcf populations.snps.vcf --max-missing 0.5 --recode --out filtered.snps
+		/path/to/vcftools --vcf populations.snps.vcf --max-missing 0.5 --recode --out filtered.snps
 
 
 2. Second, let's filter loci with Minor Allele Frequency < 0.02 in remaining individuals and loci
 
-		./vcftools --vcf filtered.snps.recode.vcf --maf 0.02 --recode --out filtered.snps.b
+		/path/to/vcftools --vcf filtered.snps.recode.vcf --maf 0.02 --recode --out filtered.snps.b
 		
 	hmmm... nothing was actually filtered, let's change so that now it's not frequency but absolute count using `-mac` such that: 
 
-		 ./vcftools --vcf filtered.snps.recode.vcf --mac 1  --recode --out filtered.snps.b
+		/path/to/vcftools --vcf filtered.snps.recode.vcf --mac 1  --recode --out filtered.snps.b
 
 	What happens if we continue to increase `mac`, do we lose any loci? 
 
@@ -105,7 +105,7 @@ Thus, it is better to have more control over filters that are implemented in you
 - specific unwanted loci (using *whitelists* and *blacklists*)
 - many others! 
 
-Further, aside fro filtering in these programs you can also estimate lots of things, such as individual inbreeding coefficients. 
+Further, aside from filtering in these programs you can also estimate lots of things, such as individual inbreeding coefficients. 
 
 
 <br><br>
