@@ -11,16 +11,14 @@ material-type: ""
 lesson-type: Interactive
 ---
 
-<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/05-stacks-epi.html"><button>Stacks lesson</button></a><a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>RAxML</button></a>
+<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/05-stacks-epi.html"><button>Stacks lesson</button></a>		<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>RAxML</button></a>
 
 Getting the output with **populations**
 ----
 
 The final step in the stacks pipeline is to run the program [**populations**](http://catchenlab.life.illinois.edu/stacks/comp/populations.php), which is essentially just filtering, exporting, and summarizing data infor the formats that you specify (as in, once genotyping is already finished). However, another super nice thing about this program is that it runs populations stats for you and puts them in a nice excel-readable output!! :D yay easy pogen stats!!  
 
-To run **populations**, we first need to develop a popmap file, which simply contains names of sequences (first column) and some population code (second column)that they belong to, tab delimited. Our sample/file names alrady contain the population information, so try to build it yourself.... how do you want to do it???
-
-
+To run **populations**, we first need to develop a popmap file, which simply contains names of sequences (first column) and some population code (second column) that they belong to, tab delimited. Our sample file already contains the population information, so try to build it yourself.... how do you want to do it???
 
 Now, let's run **populations** using the following command:
 
@@ -50,11 +48,11 @@ Thus, it is better to have more control over filters that are implemented in you
 
 		./vcftools --vcf filtered.snps.recode.vcf --maf 0.02 --recode --out filtered.snps.b
 		
-hmmm... nothing was actually filtered, let's change so taht now it's not frequency but absolute count using `-mac` such that: 
+	hmmm... nothing was actually filtered, let's change so that now it's not frequency but absolute count using `-mac` such that: 
 
-	 ./vcftools --vcf filtered.snps.recode.vcf --mac 1  --recode --out filtered.snps.b
+		 ./vcftools --vcf filtered.snps.recode.vcf --mac 1  --recode --out filtered.snps.b
 
-What happens if we continue to increase `mac`, do we lose any loci? 
+	What happens if we continue to increase `mac`, do we lose any loci? 
 
 
 3. Other filters we can also do:
@@ -74,7 +72,7 @@ Further, aside fro filtering in these programs you can also estimate lots of thi
 
 <br><br>
 
-<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/05-stacks-epi.html"><button>Previous Lesson</button></a><a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>Next Lesson</button></a>
+<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/05-stacks-epi.html"><button>Previous Lesson</button></a>		<a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/"><button>Home</button></a>    <a href="https://rdtarvin.github.io/IBS2019_Genomics-of-Biodiversity/main/2019/08/05/09-raxml-epi.html"><button>Next Lesson</button></a>
 
 
 ## Appendix
